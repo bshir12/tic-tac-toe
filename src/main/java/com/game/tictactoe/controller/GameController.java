@@ -18,17 +18,7 @@ public class GameController {
     public ResponseEntity<Map<String, Object>> resetGame(
             @RequestParam(defaultValue = "3") int boardSize,
             @RequestParam(required = false) String firstPlayer) {
-
-        if (firstPlayer == null) {
-            firstPlayer = "X";
-        }
-
-        gameService.initializeGame(boardSize, firstPlayer);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("boardSize", gameService.getBoard().getSize());
-        response.put("currentPlayer", gameService.getCurrentPlayer());
-
+        Map<String, Object> response = gameService.startingGame(boardSize, firstPlayer);
         return ResponseEntity.ok(response);
     }
 
@@ -36,21 +26,7 @@ public class GameController {
     public ResponseEntity<Map<String, Object>> makeMove(
             @RequestParam int row,
             @RequestParam int col) {
-
-        boolean success = gameService.makeMove(row, col);
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("success", success);
-
-        if (success) {
-            response.put("currentPlayer", gameService.getCurrentPlayer());
-            response.put("gameOver", gameService.isGameOver());
-
-            if (gameService.isGameOver()) {
-                response.put("winner", gameService.getWinner());
-            }
-        }
-
+        Map<String, Object> response = gameService.move(row, col);
         return ResponseEntity.ok(response);
     }
 }
