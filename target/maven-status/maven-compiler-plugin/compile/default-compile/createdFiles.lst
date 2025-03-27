@@ -1,0 +1,6 @@
+com\game\tictactoe\controller\PageController.class
+com\game\tictactoe\model\Board.class
+com\game\tictactoe\service\GameService.class
+com\game\tictactoe\controller\GameController.class
+com\game\tictactoe\Main.class
+com\game\tictactoe\config\GameConfiguration.class
