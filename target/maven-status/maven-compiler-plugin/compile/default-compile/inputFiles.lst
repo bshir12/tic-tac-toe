@@ -1,6 +1,11 @@
-C:\Data Kerja\Learning\tic-tac-toe\src\main\java\com\game\tictactoe\service\GameService.java
-C:\Data Kerja\Learning\tic-tac-toe\src\main\java\com\game\tictactoe\Main.java
-C:\Data Kerja\Learning\tic-tac-toe\src\main\java\com\game\tictactoe\controller\GameController.java
-C:\Data Kerja\Learning\tic-tac-toe\src\main\java\com\game\tictactoe\controller\PageController.java
-C:\Data Kerja\Learning\tic-tac-toe\src\main\java\com\game\tictactoe\model\Board.java
-C:\Data Kerja\Learning\tic-tac-toe\src\main\java\com\game\tictactoe\config\GameConfiguration.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\handler\GameHandler.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\service\impl\GameServiceImpl.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\service\WinCheck.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\service\GameService.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\config\GameConfiguration.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\Main.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\constant\Player.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\controller\GameController.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\controller\PageController.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\model\Board.java
+C:\Data Kerja\Github\tic-tac-toe\src\main\java\com\game\tictactoe\service\impl\WinCheckImpl.java
