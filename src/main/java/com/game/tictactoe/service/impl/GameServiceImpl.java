@@ -1,8 +1,11 @@
 package com.game.tictactoe.service.impl;
 
 import com.game.tictactoe.config.GameConfiguration;
+import com.game.tictactoe.constant.Player;
+import com.game.tictactoe.handler.GameHandler;
 import com.game.tictactoe.model.Board;
 import com.game.tictactoe.service.GameService;
+import com.game.tictactoe.service.WinCheck;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -15,8 +18,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
     private final GameConfiguration gameConfig;
+    private final WinCheck winCheck;
+
     private Board board;
-    private String currentPlayer;
+    private Player currentPlayer;
     private boolean gameOver;
     private String winner;
 
@@ -26,7 +31,11 @@ public class GameServiceImpl implements GameService {
             firstPlayer = "X";
         }
 
-        initializeGame(boardSize, firstPlayer);
+        Player player = Player.O;
+        if(firstPlayer.equals("X")){
+            player = Player.X;
+        }
+        initializeGame(boardSize, player);
 
         Map<String, Object> response = new HashMap<>();
         response.put("boardSize", board.getSize());
@@ -53,122 +62,50 @@ public class GameServiceImpl implements GameService {
         return response;
     }
 
-    private void initializeGame(int boardSize, String firstPlayer) {
+    private void initializeGame(int boardSize, Player firstPlayer) {
 
         log.info("Game Start With Size: {}, First Player: {}", boardSize, firstPlayer);
 
         int validatedBoardSize = gameConfig.validateBoardSize(boardSize);
 
         board = new Board(validatedBoardSize);
-        currentPlayer = validateFirstPlayer(firstPlayer);
+        currentPlayer = firstPlayer != null ? firstPlayer : Player.X;
         gameOver = false;
         winner = null;
     }
 
-    private boolean makeMove(int row, int col) {
-        if (gameOver || !board.makeMove(row, col, currentPlayer)) {
-            log.warn("Invalid mov at row: {}, col: {}", row, col);
+    public boolean makeMove(int row, int col) {
+        validateMove(row, col);
+
+        if (!board.makeMove(row, col, currentPlayer.getSymbol())) {
+            log.warn("Invalid move attempted at row: {}, col: {}", row, col);
             return false;
         }
 
-        if (checkWinner(row, col)) {
+        if (winCheck.checkWin(board, currentPlayer, row, col)) {
             gameOver = true;
-            winner = currentPlayer;
+            winner = currentPlayer.getSymbol();
+            log.info("Game won by player: {}", winner);
         } else if (isBoardFull()) {
             gameOver = true;
+            log.info("Game ended in a draw");
         } else {
-            switchPlayer();
+            currentPlayer = currentPlayer.switchPlayer();
         }
 
         return true;
     }
 
-    private String validateFirstPlayer(String firstPlayer){
-        return firstPlayer != null && (firstPlayer.equals("X") || firstPlayer.equals("O"))
-                ? firstPlayer
-                : "X";
-    }
-
-    private void switchPlayer() {
-        currentPlayer = currentPlayer.equals("X") ? "O" : "X";
-    }
-
-    private boolean checkWinner(int row, int col) {
-        return checkHorizontal(row) ||
-                checkVertical(col) ||
-                checkDiagonals();
-    }
-
-    private boolean checkHorizontal(int row) {
-        log.info("Horizontal check at row: {}", row);
-        String[][] grid = board.getGrid();
-        for (int c = 0; c <= grid[row].length - gameConfig.getWinCondition(); c++) {
-            boolean win = true;
-            for (int k = 0; k < gameConfig.getWinCondition(); k++) {
-                if (!grid[row][c + k].equals(currentPlayer)) {
-                    win = false;
-                    break;
-                }
-            }
-            if (win) return true;
+    private void validateMove(int row, int col){
+        log.info("Check Mock");
+        if(gameOver){
+            throw new GameHandler("Game is Over");
         }
-        return false;
-    }
 
-    private boolean checkVertical(int col) {
-        log.info("Vertical check at col: {}", col);
-        String[][] grid = board.getGrid();
-        for (int r = 0; r <= grid.length - gameConfig.getWinCondition(); r++) {
-            boolean win = true;
-            for (int k = 0; k < gameConfig.getWinCondition(); k++) {
-                if (!grid[r + k][col].equals(currentPlayer)) {
-                    win = false;
-                    break;
-                }
-            }
-            if (win) return true;
+        if(row < 0 || col < 0 ||
+                row >= board.getSize() || col >= board.getSize()){
+            throw new GameHandler("Move is outside Box");
         }
-        return false;
-    }
-
-    private boolean checkDiagonals() {
-        return checkMainDiagonal() || checkAntiDiagonal();
-    }
-
-    private boolean checkMainDiagonal() {
-        log.info("=====checkMainDiagonal=====");
-        String[][] grid = board.getGrid();
-        for (int r = 0; r <= grid.length - gameConfig.getWinCondition(); r++) {
-            for (int c = 0; c <= grid[r].length - gameConfig.getWinCondition(); c++) {
-                boolean win = true;
-                for (int k = 0; k < gameConfig.getWinCondition(); k++) {
-                    if (!grid[r + k][c + k].equals(currentPlayer)) {
-                        win = false;
-                        break;
-                    }
-                }
-                if (win) return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean checkAntiDiagonal() {
-        log.info("=====checkAntiDiagonal=====");
-        String[][] grid = board.getGrid();
-        for (int r = 0; r <= grid.length - gameConfig.getWinCondition(); r++) {
-            for (int c = gameConfig.getWinCondition() - 1; c < grid[r].length; c++) {
-                boolean win = true;
-                for (int k = 0; k < gameConfig.getWinCondition(); k++) {
-                    if (!grid[r + k][c - k].equals(currentPlayer)) {
-                        win = false;
-                        break;
-                    }
-                }
-                if (win) return true;
-            }
-        }
-        return false;
     }
 
     private boolean isBoardFull() {
