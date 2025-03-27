@@ -1,6 +1,11 @@
 com\game\tictactoe\controller\PageController.class
-com\game\tictactoe\model\Board.class
+com\game\tictactoe\handler\GameHandler.class
+com\game\tictactoe\service\impl\GameServiceImpl.class
+com\game\tictactoe\constant\Player.class
 com\game\tictactoe\service\GameService.class
 com\game\tictactoe\controller\GameController.class
 com\game\tictactoe\Main.class
 com\game\tictactoe\config\GameConfiguration.class
+com\game\tictactoe\model\Board.class
+com\game\tictactoe\service\WinCheck.class
+com\game\tictactoe\service\impl\WinCheckImpl.class

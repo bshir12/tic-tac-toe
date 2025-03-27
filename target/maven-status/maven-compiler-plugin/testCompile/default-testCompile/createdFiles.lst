@@ -1,0 +1,4 @@
+com\game\tictactoe\service\GameServiceImplTests.class
+com\game\tictactoe\controller\GameControllerTests.class
+com\game\tictactoe\controller\PageControllerTests.class
+com\game\tictactoe\service\WinCheckImplTests.class
