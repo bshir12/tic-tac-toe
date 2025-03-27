@@ -22,7 +22,7 @@ public class GameController {
     }
 
     @PostMapping("/move")
-    public ResponseEntity<?> makeMove(
+    public ResponseEntity<Map<String, Object>> makeMove(
             @RequestParam int row,
             @RequestParam int col
     ) {

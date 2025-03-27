@@ -23,12 +23,10 @@ public class WinCheckImpl implements WinCheck {
         String[][] grid = board.getGrid();
         int count = 0;
 
-        // Check left
         for (int c = col; c >= 0 && grid[row][c].equals(player.getSymbol()); c--) {
             count++;
         }
 
-        // Check right
         for (int c = col + 1; c < grid[row].length && grid[row][c].equals(player.getSymbol()); c++) {
             count++;
         }
@@ -40,12 +38,10 @@ public class WinCheckImpl implements WinCheck {
         String[][] grid = board.getGrid();
         int count = 0;
 
-        // Check up
         for (int r = row; r >= 0 && grid[r][col].equals(player.getSymbol()); r--) {
             count++;
         }
 
-        // Check down
         for (int r = row + 1; r < grid.length && grid[r][col].equals(player.getSymbol()); r++) {
             count++;
         }
@@ -62,7 +58,6 @@ public class WinCheckImpl implements WinCheck {
         String[][] grid = board.getGrid();
         int count = 0;
 
-        // Check top-left to bottom-right
         for (int r = row, c = col;
              r >= 0 && c >= 0 && grid[r][c].equals(player.getSymbol());
              r--, c--) {
@@ -82,7 +77,6 @@ public class WinCheckImpl implements WinCheck {
         String[][] grid = board.getGrid();
         int count = 0;
 
-        // Check top-right to bottom-left
         for (int r = row, c = col;
              r >= 0 && c < grid[r].length && grid[r][c].equals(player.getSymbol());
              r--, c++) {
